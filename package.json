@@ -1,0 +1,28 @@
+{
+  "name": "fsrelationaldatabase1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhimlopz/fsrelationaldatabase1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jhimlopz/fsrelationaldatabase1/issues"
+  },
+  "homepage": "https://github.com/jhimlopz/fsrelationaldatabase1#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.23.0",
+    "sequelize": "^6.37.8"
+  }
+}
