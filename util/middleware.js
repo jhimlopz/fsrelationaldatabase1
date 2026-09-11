@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { SECRET } = require("./config");
+const { User } = require("../models");
 
 const tokenExtractor = (req, res, next) => {
   const authorization = req.get("authorization");
@@ -11,6 +12,14 @@ const tokenExtractor = (req, res, next) => {
     }
   } else {
     return res.status(401).json({ error: "token missing" });
+  }
+  next();
+};
+
+const isAdmin = async (req, res, next) => {
+  const user = await User.findByPk(req.decodedToken.id);
+  if (!user || !user.admin) {
+    return res.status(401).json({ error: "operation not allowed" });
   }
   next();
 };
@@ -32,4 +41,4 @@ const errorHandler = (error, req, res, next) => {
   next(error);
 };
 
-module.exports = { errorHandler, tokenExtractor };
+module.exports = { errorHandler, tokenExtractor, isAdmin };

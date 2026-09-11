@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const router = require("express").Router();
 
 const { User, Blog } = require("../models");
+const { tokenExtractor, isAdmin } = require("../util/middleware");
 
 router.post("/", async (req, res, next) => {
   try {
@@ -49,5 +50,26 @@ router.put("/:username", async (req, res, next) => {
     next(error);
   }
 });
+
+router.put(
+  "/:username/disabled",
+  tokenExtractor,
+  isAdmin,
+  async (req, res, next) => {
+    try {
+      const user = await User.findOne({
+        where: { username: req.params.username },
+      });
+      if (!user) {
+        return res.status(404).end();
+      }
+      user.disabled = req.body.disabled;
+      await user.save();
+      res.json(user);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 module.exports = router;
