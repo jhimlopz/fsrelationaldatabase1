@@ -3,13 +3,18 @@ const { DATABASE_URL, TEST_DATABASE_URL } = require("./config");
 
 const url = process.env.TESTING === "true" ? TEST_DATABASE_URL : DATABASE_URL;
 
+const isLocalDatabase =
+  url && (url.includes("localhost") || url.includes("127.0.0.1"));
+
 const sequelize = new Sequelize(url, {
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false,
-    },
-  },
+  dialectOptions: isLocalDatabase
+    ? {}
+    : {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+      },
 });
 
 const connectToDatabase = async () => {
