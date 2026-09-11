@@ -1,7 +1,9 @@
 const Sequelize = require("sequelize");
-const { DATABASE_URL } = require("./config");
+const { DATABASE_URL, TEST_DATABASE_URL } = require("./config");
 
-const sequelize = new Sequelize(DATABASE_URL, {
+const url = process.env.TESTING === "true" ? TEST_DATABASE_URL : DATABASE_URL;
+
+const sequelize = new Sequelize(url, {
   dialectOptions: {
     ssl: {
       require: true,

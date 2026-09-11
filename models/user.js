@@ -13,10 +13,14 @@ User.init(
     },
     username: {
       type: DataTypes.STRING,
-      unique: true,
       allowNull: false,
+      unique: true,
     },
     name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    passwordHash: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -24,7 +28,6 @@ User.init(
   {
     sequelize,
     underscored: true,
-    timestamps: false,
     modelName: "user",
   },
 );
