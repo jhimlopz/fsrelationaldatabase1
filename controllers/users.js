@@ -35,6 +35,31 @@ router.get("/", async (req, res) => {
   res.json(users);
 });
 
+router.get("/:id", async (req, res) => {
+  const throughOptions = { attributes: ["read", "id"] };
+
+  if (req.query.read !== undefined) {
+    throughOptions.where = { read: req.query.read === "true" };
+  }
+
+  const user = await User.findByPk(req.params.id, {
+    attributes: { exclude: ["passwordHash"] },
+    include: {
+      model: Blog,
+      as: "readings",
+      attributes: { exclude: ["userId"] },
+      required: false,
+      through: throughOptions,
+    },
+  });
+
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404).end();
+  }
+});
+
 router.put("/:username", async (req, res, next) => {
   try {
     const user = await User.findOne({
